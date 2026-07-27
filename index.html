@@ -84,7 +84,10 @@
 </div>
 
 <script>
-// Point this at your deployed backend URL (see claimcheck_DEPLOY_README.md).
+// Live backend URL. Note: this still contains "claimcheck" in the hostname —
+// Render doesn't allow renaming a service's live onrender.com subdomain, only
+// its internal display name, so this is the one unavoidable exception left
+// after the full rename (see the project tracker for the full explanation).
 const BACKEND_URL = "https://claimcheck-backend-v00b.onrender.com";
 
 async function joinWaitlist(e) {
