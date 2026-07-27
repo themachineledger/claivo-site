@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ClaimCheck — Verify a response</title>
+<title>Claivo — Verify a response</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='38' fill='%234F46E5'/%3E%3Cpath d='M44 86 L68 110 L118 50' stroke='%23F5F6F8' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
 <style>
   body { font-family: -apple-system, Segoe UI, sans-serif; background:#0f1115; color:#e8e8e8; max-width:900px; margin:40px auto; padding:0 20px;}
@@ -48,11 +48,11 @@
         <path d="M44 86 L68 110 L118 50" stroke="#F5F6F8" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       </svg>
     </span>
-    <span class="word">ClaimCheck</span>
+    <span class="word">Claivo</span>
   </div>
   <a class="navlink" href="index.html">&larr; Back to site</a>
 </div>
-<h1>ClaimCheck</h1>
+<h1>Claivo</h1>
 <p class="sub">Paste your policy/source data and a draft AI reply. We'll flag anything unsupported or contradicted before it reaches your customer.</p>
 
 <!-- SIGNED-OUT VIEW: create an account or paste in an existing token -->
@@ -66,7 +66,7 @@
   <div id="tokenReveal" class="hidden">
     <div class="tokenBox" id="tokenText"></div>
     <p class="explain" style="margin-top:8px;">Save this token somewhere safe — it will not be shown again. It's also saved in this browser for next time.</p>
-    <button onclick="continueAfterSignup()">Continue to ClaimCheck</button>
+    <button onclick="continueAfterSignup()">Continue to Claivo</button>
   </div>
 
   <p class="explain" style="margin-top:26px;">Already have a token?</p>
@@ -97,7 +97,7 @@
 <script>
 // Point this at your deployed backend URL (see claimcheck_DEPLOY_README.md).
 const BACKEND_URL = "https://claimcheck-backend-v00b.onrender.com";
-const STORAGE_KEY = "claimcheck_token";
+const STORAGE_KEY = "claivo_token";
 
 function getToken() {
   return localStorage.getItem(STORAGE_KEY);
