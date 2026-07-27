@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ClaimCheck — Verify a response</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='38' fill='%234F46E5'/%3E%3Cpath d='M44 86 L68 110 L118 50' stroke='%23F5F6F8' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+  body { font-family: -apple-system, Segoe UI, sans-serif; background:#0f1115; color:#e8e8e8; max-width:900px; margin:40px auto; padding:0 20px;}
+  .brandbar { display:flex; align-items:center; justify-content:space-between; padding:24px 0 8px; }
+  .brand { display:flex; align-items:center; gap:10px; }
+  .brand .icon { width:30px; height:30px; border-radius:8px; background:#4F46E5; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .brand .word { font-weight:700; font-size:16px; color:#f2f3f5; letter-spacing:-0.3px; }
+  .brandbar a.navlink { color:#7d8794; font-size:13px; text-decoration:none; font-weight:600; }
+  .brandbar a.navlink:hover { color:#e8e8e8; }
+  h1 { font-size: 1.5em; margin-bottom:4px;}
+  p.sub { color:#999; margin-top:0; }
+  textarea { width:100%; min-height:130px; background:#1b1e24; color:#e8e8e8; border:1px solid #333; border-radius:8px; padding:12px; font-family:inherit; font-size:14px; box-sizing:border-box;}
+  input[type=email], input[type=text] { width:100%; padding:12px 14px; border-radius:8px; border:1px solid #333; background:#1b1e24; color:#e8e8e8; font-size:15px; box-sizing:border-box; }
+  label { display:block; margin:20px 0 6px; font-weight:600; font-size:13px; color:#aaa; text-transform:uppercase; letter-spacing:0.03em;}
+  button { margin-top:22px; background:#4f7fff; color:white; border:none; padding:12px 26px; border-radius:8px; font-size:15px; cursor:pointer; font-weight:600;}
+  button:disabled { opacity:0.5; cursor:not-allowed; }
+  button.secondary { background:#2a2d35; }
+  .result { margin-top:16px; padding:16px; border-radius:8px; border-left:4px solid; }
+  .supported { border-color:#2ecc71; background:#13291c;}
+  .unsupported { border-color:#f1c40f; background:#2a2412;}
+  .contradicted { border-color:#e74c3c; background:#2a1414;}
+  .claim { font-weight:600; margin-bottom:6px;}
+  .explain { font-size:13px; color:#bbb; line-height:1.5;}
+  .tag { display:inline-block; font-size:11px; padding:2px 9px; border-radius:10px; margin-left:8px; text-transform:uppercase; font-weight:700; vertical-align:middle;}
+  .tag.supported { background:#2ecc71; color:#08210f;}
+  .tag.unsupported { background:#f1c40f; color:#2a2412;}
+  .tag.contradicted { background:#e74c3c; color:#2a1414;}
+  #status { margin-top:14px; font-size:13px; color:#888; }
+  #resultsWrap { margin-top:10px; }
+  .card { background:#15171c; border-radius:10px; padding:24px; margin-top:20px; }
+  .tokenBox { background:#1b1e24; border:1px dashed #4f7fff; border-radius:8px; padding:14px; margin-top:14px; font-family:monospace; font-size:13px; word-break:break-all; }
+  .topbar { display:flex; justify-content:space-between; align-items:baseline; }
+  .topbar span { font-size:12px; color:#777; }
+  a.link { color:#4f7fff; cursor:pointer; text-decoration:underline; font-size:13px; }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<div class="brandbar">
+  <div class="brand">
+    <span class="icon">
+      <svg width="16" height="16" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <path d="M44 86 L68 110 L118 50" stroke="#F5F6F8" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </span>
+    <span class="word">ClaimCheck</span>
+  </div>
+  <a class="navlink" href="index.html">&larr; Back to site</a>
+</div>
+<h1>ClaimCheck</h1>
+<p class="sub">Paste your policy/source data and a draft AI reply. We'll flag anything unsupported or contradicted before it reaches your customer.</p>
+
+<!-- SIGNED-OUT VIEW: create an account or paste in an existing token -->
+<div id="authView" class="card">
+  <h2 style="margin-top:0; font-size:1.1em;">Get started</h2>
+  <p class="explain">Enter your email to create an account and get an access token. Free accounts include 50 checks/day.</p>
+  <label>Email</label>
+  <input type="email" id="signupEmail" placeholder="you@yourstore.com">
+  <button id="signupBtn" onclick="signup()">Create account</button>
+  <div id="signupStatus" style="margin-top:10px; font-size:13px; color:#888;"></div>
+  <div id="tokenReveal" class="hidden">
+    <div class="tokenBox" id="tokenText"></div>
+    <p class="explain" style="margin-top:8px;">Save this token somewhere safe — it will not be shown again. It's also saved in this browser for next time.</p>
+    <button onclick="continueAfterSignup()">Continue to ClaimCheck</button>
+  </div>
+
+  <p class="explain" style="margin-top:26px;">Already have a token?</p>
+  <input type="text" id="existingToken" placeholder="Paste your access token">
+  <button class="secondary" onclick="useExistingToken()">Use this token</button>
+</div>
+
+<!-- SIGNED-IN VIEW -->
+<div id="mainView" class="hidden">
+  <div class="topbar">
+    <span id="acctInfo"></span>
+    <a class="link" onclick="logout()">Use a different account</a>
+  </div>
+
+  <label>Source of truth (your real policies, product info, order data)</label>
+  <textarea id="source" placeholder="Paste your policies, product info, or order data here...">Returns accepted within 30 days of delivery, item must be unworn with tags attached. Sale items are final sale, store credit only, no refunds. Standard shipping takes 5-7 business days. We do not offer expedited shipping at this time.</textarea>
+  <button class="secondary" id="saveSourceBtn" onclick="saveSource()">Save source of truth</button>
+  <span id="saveSourceStatus" style="margin-left:12px; font-size:13px; color:#888;"></span>
+
+  <label>Draft AI response to check</label>
+  <textarea id="draft">Hi! No problem, you're welcome to return this within 60 days for a full refund, even the sale item. Since you're a valued customer I can also upgrade you to expedited shipping on your next order at no charge.</textarea>
+
+  <button id="verifyBtn" onclick="verify()">Verify Response</button>
+  <div id="status"></div>
+  <div id="resultsWrap"></div>
+</div>
+
+<script>
+// Point this at your deployed backend URL (see claimcheck_DEPLOY_README.md).
+const BACKEND_URL = "https://claimcheck-backend-v00b.onrender.com";
+const STORAGE_KEY = "claimcheck_token";
+
+function getToken() {
+  return localStorage.getItem(STORAGE_KEY);
+}
+
+function setToken(token) {
+  localStorage.setItem(STORAGE_KEY, token);
+}
+
+function clearToken() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+async function signup() {
+  const email = document.getElementById('signupEmail').value.trim();
+  const statusEl = document.getElementById('signupStatus');
+  const btn = document.getElementById('signupBtn');
+  if (!email) {
+    statusEl.textContent = 'Enter an email first.';
+    return;
+  }
+  btn.disabled = true;
+  statusEl.textContent = 'Creating your account...';
+  try {
+    const res = await fetch(`${BACKEND_URL}/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Something went wrong.');
+
+    setToken(data.token);
+    statusEl.textContent = 'Account created.';
+    document.getElementById('tokenText').textContent = data.token;
+    document.getElementById('tokenReveal').classList.remove('hidden');
+  } catch (err) {
+    statusEl.textContent = 'Error: ' + err.message;
+    btn.disabled = false;
+  }
+}
+
+function continueAfterSignup() {
+  showMainView();
+}
+
+function useExistingToken() {
+  const token = document.getElementById('existingToken').value.trim();
+  if (!token) return;
+  setToken(token);
+  showMainView();
+}
+
+function logout() {
+  clearToken();
+  document.getElementById('mainView').classList.add('hidden');
+  document.getElementById('authView').classList.remove('hidden');
+  document.getElementById('signupStatus').textContent = '';
+  document.getElementById('tokenReveal').classList.add('hidden');
+  document.getElementById('signupBtn').disabled = false;
+}
+
+async function showMainView() {
+  document.getElementById('authView').classList.add('hidden');
+  document.getElementById('mainView').classList.remove('hidden');
+  document.getElementById('acctInfo').textContent = 'Loading account...';
+
+  // Pull saved source (if any) and usage so the UI reflects real account state.
+  try {
+    const [sourceRes, usageRes] = await Promise.all([
+      fetch(`${BACKEND_URL}/source`, { headers: authHeaders() }),
+      fetch(`${BACKEND_URL}/usage`, { headers: authHeaders() })
+    ]);
+    if (sourceRes.status === 401 || usageRes.status === 401) {
+      throw new Error('unauthorized');
+    }
+    const sourceData = await sourceRes.json();
+    const usageData = await usageRes.json();
+    if (sourceData.source) {
+      document.getElementById('source').value = sourceData.source;
+    }
+    document.getElementById('acctInfo').textContent =
+      `${usageData.today}/${usageData.daily_limit} checks used today`;
+  } catch (err) {
+    // Invalid/expired token — bounce back to the auth view.
+    logout();
+    document.getElementById('signupStatus').textContent = 'That token is invalid. Create a new account or check your token.';
+  }
+}
+
+function authHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${getToken()}`
+  };
+}
+
+async function saveSource() {
+  const source = document.getElementById('source').value.trim();
+  const statusEl = document.getElementById('saveSourceStatus');
+  const btn = document.getElementById('saveSourceBtn');
+  if (!source) return;
+  btn.disabled = true;
+  statusEl.textContent = 'Saving...';
+  try {
+    const res = await fetch(`${BACKEND_URL}/source`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ source })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Save failed.');
+    statusEl.textContent = 'Saved.';
+  } catch (err) {
+    statusEl.textContent = 'Error: ' + err.message;
+  } finally {
+    btn.disabled = false;
+    setTimeout(() => { statusEl.textContent = ''; }, 2500);
+  }
+}
+
+async function verify() {
+  const draft = document.getElementById('draft').value.trim();
+  const statusEl = document.getElementById('status');
+  const resultsEl = document.getElementById('resultsWrap');
+  const btn = document.getElementById('verifyBtn');
+
+  if (!draft) {
+    statusEl.textContent = 'Paste a draft response to check.';
+    return;
+  }
+
+  btn.disabled = true;
+  statusEl.textContent = 'Checking the draft against your source of truth...';
+  resultsEl.innerHTML = '';
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/verify`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ draft })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || `Server error ${res.status}`);
+
+    const claims = data.claims;
+    statusEl.textContent = `${claims.length} claim(s) checked. ${data.usage_today} check(s) used today.`;
+    resultsEl.innerHTML = claims.map(c => `
+      <div class="result ${c.status}">
+        <div class="claim">${c.claim} <span class="tag ${c.status}">${c.status}</span></div>
+        <div class="explain">${c.explanation}</div>
+      </div>
+    `).join('');
+    document.getElementById('acctInfo').textContent = `${data.usage_today} checks used today`;
+
+  } catch (err) {
+    statusEl.textContent = 'Error: ' + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// On load: if we already have a token, skip straight to the main view.
+window.addEventListener('DOMContentLoaded', () => {
+  if (getToken()) {
+    showMainView();
+  }
+});
+</script>
+</body>
+</html>

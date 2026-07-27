@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ClaimCheck — catch AI chatbot mistakes before customers see them</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='38' fill='%234F46E5'/%3E%3Cpath d='M44 86 L68 110 L118 50' stroke='%23F5F6F8' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, Segoe UI, sans-serif; background:#0a0b0e; color:#e8e8e8; margin:0; padding:0; }
+  .wrap { max-width:760px; margin:0 auto; padding:0 24px 60px; }
+  nav { max-width:760px; margin:0 auto; padding:28px 24px 0; display:flex; align-items:center; justify-content:space-between; }
+  .brand { display:flex; align-items:center; gap:10px; }
+  .brand .icon { width:32px; height:32px; border-radius:9px; background:#4F46E5; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .brand .word { font-weight:700; font-size:17px; color:#f2f3f5; letter-spacing:-0.3px; }
+  nav a.navlink { color:#aab0bd; font-size:14px; text-decoration:none; font-weight:600; }
+  nav a.navlink:hover { color:#e8e8e8; }
+  .hero { padding-top:56px; }
+  .kicker { color:#4f7fff; font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; }
+  h1 { font-size:2.4em; line-height:1.15; margin:14px 0 18px; }
+  p.lead { font-size:1.15em; color:#bbb; line-height:1.6; max-width:620px; }
+  .proof { margin:40px 0; padding:20px 24px; background:#15171c; border-radius:10px; border-left:3px solid #4f7fff; font-size:14px; color:#ccc; line-height:1.6;}
+  .proof b { color:#fff; }
+  h2 { font-size:1.3em; margin-top:56px; }
+  .steps { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-top:20px; }
+  .step { background:#15171c; border-radius:10px; padding:18px; }
+  .step .num { color:#4f7fff; font-weight:700; font-size:13px; }
+  .step p { font-size:14px; color:#bbb; margin:8px 0 0; line-height:1.5;}
+  form { margin-top:30px; display:flex; gap:10px; flex-wrap:wrap; }
+  input[type=email] { flex:1; min-width:220px; padding:14px 16px; border-radius:8px; border:1px solid #333; background:#1b1e24; color:#e8e8e8; font-size:15px; }
+  select { padding:14px 16px; border-radius:8px; border:1px solid #333; background:#1b1e24; color:#e8e8e8; font-size:15px; }
+  button { background:#4f7fff; color:white; border:none; padding:14px 26px; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; }
+  button:disabled { opacity:0.5; cursor:not-allowed; }
+  #msg { margin-top:12px; font-size:14px; color:#888; }
+  footer { margin-top:70px; font-size:12px; color:#666; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">
+    <span class="icon">
+      <svg width="18" height="18" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <path d="M44 86 L68 110 L118 50" stroke="#F5F6F8" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </span>
+    <span class="word">ClaimCheck</span>
+  </div>
+  <a class="navlink" href="app.html">Open the app &rarr;</a>
+</nav>
+<div class="wrap">
+  <div class="hero">
+  <div class="kicker">ClaimCheck</div>
+  <h1>Catch what your AI chatbot gets wrong, before your customer does.</h1>
+  <p class="lead">Every reply your support AI sends gets checked against your actual policies and order data first. Wrong return windows, invented discounts, and promises that were never real get flagged before they go out, not after a customer holds you to them.</p>
+
+  <div class="proof">
+    This isn't hypothetical. <b>Air Canada was held legally responsible</b> for a refund policy its chatbot made up. <b>Lloyd's of London now sells insurance</b> specifically covering AI hallucination losses. If your business talks to customers through AI, this is already a real cost, whether you've seen it yet or not.
+  </div>
+
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step"><div class="num">01</div><p>Connect your policies, product catalog, and order data as your source of truth.</p></div>
+    <div class="step"><div class="num">02</div><p>Every AI-drafted reply gets checked against that source before it's sent.</p></div>
+    <div class="step"><div class="num">03</div><p>Unsupported or contradicted claims get flagged, with a log you can point to later.</p></div>
+  </div>
+
+  <h2>Get early access</h2>
+  <p class="lead" style="font-size:1em;">We're onboarding a small number of stores before general availability. Tell us where you run support and we'll reach out.</p>
+
+  <form onsubmit="joinWaitlist(event)">
+    <input type="email" id="email" placeholder="you@yourstore.com" required>
+    <select id="platform">
+      <option value="">Where do you run support?</option>
+      <option value="shopify">Shopify</option>
+      <option value="zendesk">Zendesk</option>
+      <option value="intercom">Intercom</option>
+      <option value="custom">Custom / other</option>
+    </select>
+    <button id="joinBtn" type="submit">Join the waitlist</button>
+  </form>
+  <div id="msg"></div>
+
+  <footer>ClaimCheck is in early development. This page describes what we're building, not a live product yet.</footer>
+  </div>
+</div>
+
+<script>
+// Point this at your deployed backend URL (see claimcheck_DEPLOY_README.md).
+const BACKEND_URL = "https://claimcheck-backend-v00b.onrender.com";
+
+async function joinWaitlist(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const platform = document.getElementById('platform').value;
+  const msg = document.getElementById('msg');
+  const btn = document.getElementById('joinBtn');
+
+  btn.disabled = true;
+  msg.textContent = 'Submitting...';
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/waitlist`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, store_platform: platform || null })
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.detail || 'Something went wrong.');
+    }
+    const data = await res.json();
+    msg.textContent = data.status === 'already_signed_up'
+      ? "You're already on the list."
+      : "You're on the list — we'll be in touch.";
+  } catch (err) {
+    msg.textContent = 'Error: ' + err.message + ' (is the backend running and BACKEND_URL set correctly?)';
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
