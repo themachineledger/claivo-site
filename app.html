@@ -221,6 +221,7 @@ async function saveSource() {
 
 async function verify() {
   const draft = document.getElementById('draft').value.trim();
+  const source = document.getElementById('source').value.trim();
   const statusEl = document.getElementById('status');
   const resultsEl = document.getElementById('resultsWrap');
   const btn = document.getElementById('verifyBtn');
@@ -229,16 +230,24 @@ async function verify() {
     statusEl.textContent = 'Paste a draft response to check.';
     return;
   }
+  if (!source) {
+    statusEl.textContent = 'Paste your source of truth above first.';
+    return;
+  }
 
   btn.disabled = true;
   statusEl.textContent = 'Checking the draft against your source of truth...';
   resultsEl.innerHTML = '';
 
   try {
+    // Always send the current textarea content as an override — this way a
+    // first-time user doesn't need to remember to click "Save source of
+    // truth" before their very first check (it still gets persisted
+    // separately for next time via the Save button).
     const res = await fetch(`${BACKEND_URL}/verify`, {
       method: 'POST',
       headers: authHeaders(),
-      body: JSON.stringify({ draft })
+      body: JSON.stringify({ draft, source })
     });
 
     const data = await res.json();
