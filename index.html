@@ -160,9 +160,9 @@ input[type=email], select{
   font-family:var(--sans); font-size:15.5px; padding:13px 15px; border-radius:8px;
   border:1px solid #3A3D45; background:#212329; color:var(--paper); min-width:0;
 }
-input[type=email]{flex:1 1 260px}
+input[type=email]{flex:1 1 240px}
 input[type=email]::placeholder{color:#7C8089}
-select{flex:0 1 210px}
+select{flex:0 1 232px; cursor:pointer}
 input[type=email]:focus, select:focus{outline:2px solid #8A8E96; outline-offset:1px}
 .btn-light{background:var(--paper); color:var(--ink); border-color:var(--paper)}
 #msg{font-size:14.5px; color:#B4B7BE; margin-top:14px; min-height:20px}
@@ -392,7 +392,7 @@ footer{border-top:1px solid var(--rule); padding:44px 0 60px}
         <input type="email" id="email" placeholder="you@yourstore.com" required autocomplete="email">
         <label class="sr-only" for="platform">Where you run support</label>
         <select id="platform">
-          <option value="">Where do you run support?</option>
+          <option value="">Support platform…</option>
           <option value="shopify">Shopify</option>
           <option value="zendesk">Zendesk</option>
           <option value="intercom">Intercom</option>
