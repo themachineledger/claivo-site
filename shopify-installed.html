@@ -1,55 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Claivo is connected — Claivo</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='38' fill='%234F46E5'/%3E%3Cpath d='M44 86 L68 110 L118 50' stroke='%23F5F6F8' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claivo is connected</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='36' fill='%2318191F'/%3E%3Cpath d='M46 84 L70 108 L116 52' stroke='%23F7F5F1' stroke-width='15' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, Segoe UI, sans-serif; background:#0a0b0e; color:#e8e8e8; margin:0; padding:0; }
-  .wrap { max-width:640px; margin:0 auto; padding:0 24px 60px; }
-  nav { max-width:640px; margin:0 auto; padding:28px 24px 0; display:flex; align-items:center; justify-content:space-between; }
-  .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
-  .brand .icon { width:32px; height:32px; border-radius:9px; background:#4F46E5; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .brand .word { font-weight:700; font-size:17px; color:#f2f3f5; letter-spacing:-0.3px; }
-  .hero { padding-top:72px; text-align:center; }
-  .check { width:72px; height:72px; border-radius:22px; background:#12331f; border:1px solid #1f6b3a; display:flex; align-items:center; justify-content:center; margin:0 auto 28px; }
-  h1 { font-size:1.8em; line-height:1.25; margin:0 0 14px; }
-  p { font-size:16px; color:#bbb; line-height:1.7; }
-  .shop { color:#7c93ff; font-weight:600; }
-  a.cta { display:inline-block; margin-top:32px; background:#4f7fff; color:white; text-decoration:none; padding:14px 28px; border-radius:8px; font-size:15px; font-weight:700; }
-  footer { margin-top:80px; font-size:12px; color:#666; text-align:center; }
+:root{
+  --paper:#FBFAF7; --paper-2:#F4F2ED; --ink:#17181C; --ink-2:#2E3037;
+  --muted:#6E7179; --rule:#E3DFD6; --rule-2:#D6D1C5;
+  --ok:#2F6B4F; --ok-bg:#E8F2EC;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --serif:'Newsreader',Georgia,serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased}
+a{color:inherit}
+nav{border-bottom:1px solid var(--rule)}
+.nav-in{max-width:1080px; margin:0 auto; padding:18px 32px; display:flex; align-items:center}
+.brand{display:flex; align-items:center; gap:11px; text-decoration:none}
+.mark{width:29px;height:29px;border-radius:8px;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.wordmark{font-family:var(--serif); font-size:22px; font-weight:500; letter-spacing:-.01em}
+
+main{max-width:620px; margin:0 auto; padding:96px 32px 60px; text-align:center}
+.tick{
+  width:60px;height:60px;border-radius:16px;background:var(--ok-bg);border:1px solid #CFE3D8;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 30px;
+}
+h1{font-family:var(--serif); font-weight:400; font-size:clamp(30px,4.4vw,40px); line-height:1.15; letter-spacing:-.02em; margin:0 0 16px}
+p{font-size:17.5px; line-height:1.7; color:var(--ink-2); margin:0 0 20px}
+.shop{font-family:var(--mono); font-size:14.5px; background:var(--paper-2); border:1px solid var(--rule); border-radius:7px; padding:5px 10px; display:inline-block; color:var(--ink)}
+.btn{
+  display:inline-block; margin-top:16px; background:var(--ink); color:var(--paper); text-decoration:none;
+  font-size:15px; font-weight:500; padding:12px 22px; border-radius:8px;
+}
+.btn:hover{opacity:.86}
+.next{
+  text-align:left; border:1px solid var(--rule); border-radius:12px; padding:26px 28px; margin-top:48px; background:var(--paper);
+}
+.next h2{font-family:var(--serif); font-weight:500; font-size:20px; margin:0 0 14px; letter-spacing:-.01em}
+.next ol{margin:0; padding-left:20px}
+.next li{font-size:15.5px; line-height:1.65; color:var(--ink-2); margin-bottom:9px}
+footer{border-top:1px solid var(--rule); padding:32px 0 54px; margin-top:64px}
+.foot-in{max-width:620px; margin:0 auto; padding:0 32px; display:flex; gap:22px; flex-wrap:wrap; justify-content:center}
+.foot-in a{font-size:14px; color:var(--muted); text-decoration:none}
+.foot-in a:hover{color:var(--ink)}
+@media (max-width:640px){ main{padding:60px 22px 40px} .nav-in,.foot-in{padding-left:22px;padding-right:22px} }
 </style>
 </head>
 <body>
+
 <nav>
-  <a class="brand" href="index.html">
-    <span class="icon">
-      <svg width="18" height="18" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-        <path d="M44 86 L68 110 L118 50" stroke="#F5F6F8" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </span>
-    <span class="word">Claivo</span>
-  </a>
-</nav>
-<div class="wrap">
-  <div class="hero">
-    <div class="check">
-      <svg width="36" height="36" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-        <path d="M44 86 L68 110 L118 50" stroke="#2ecc71" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </div>
-    <h1>Claivo is connected to your store</h1>
-    <p id="shopline">Your shop's published policies (returns, shipping, terms) were imported automatically as your source of truth. Every AI support reply you check will now be verified against them.</p>
-    <a class="cta" href="app.html">Open the Claivo app &rarr;</a>
+  <div class="nav-in">
+    <a class="brand" href="index.html">
+      <span class="mark">
+        <svg width="16" height="16" viewBox="0 0 160 160" aria-hidden="true">
+          <path d="M46 84 L70 108 L116 52" stroke="#F7F5F1" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </span>
+      <span class="wordmark">Claivo</span>
+    </a>
   </div>
-  <footer>Claivo is in early development. Questions? Reach us via the contact details on our homepage.</footer>
-</div>
+</nav>
+
+<main>
+  <div class="tick">
+    <svg width="30" height="30" viewBox="0 0 160 160" aria-hidden="true">
+      <path d="M46 84 L70 108 L116 52" stroke="#2F6B4F" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+  </div>
+
+  <h1>Claivo is connected to your store</h1>
+  <p id="shopline">Your shop's published policies were imported automatically as your source of truth. Every AI reply you check will now be verified against them.</p>
+  <a class="btn" href="app.html">Open Claivo &rarr;</a>
+
+  <div class="next">
+    <h2>What happens next</h2>
+    <ol>
+      <li>Your refund, shipping and terms pages were read once at install and stored as your source of truth.</li>
+      <li>Paste a draft AI reply into the app to check it — each claim comes back supported, unsupported, or contradicted.</li>
+      <li>If you change a policy in Shopify, re-import it in the app so checks run against the current version.</li>
+    </ol>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <a href="index.html">Home</a>
+    <a href="app.html">Open the app</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+  </div>
+</footer>
+
 <script>
-  const shop = new URLSearchParams(location.search).get('shop');
+  var shop = new URLSearchParams(location.search).get('shop');
   if (shop && /^[a-z0-9][a-z0-9-]*\.myshopify\.com$/i.test(shop)) {
     document.getElementById('shopline').innerHTML =
-      '<span class="shop">' + shop + '</span> is connected. Your shop\'s published policies were imported automatically as your source of truth. Every AI support reply you check will now be verified against them.';
+      '<span class="shop">' + shop + '</span><br><br>Your shop\'s published policies were imported automatically as your source of truth. Every AI reply you check will now be verified against them.';
   }
 </script>
 </body>

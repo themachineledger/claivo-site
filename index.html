@@ -1,96 +1,437 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Claivo — catch AI chatbot mistakes before customers see them</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='38' fill='%234F46E5'/%3E%3Cpath d='M44 86 L68 110 L118 50' stroke='%23F5F6F8' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claivo — check what your AI tells customers, before it sends</title>
+<meta name="description" content="Claivo checks every AI-drafted support reply against your real policies and flags invented discounts, wrong return windows, and promises you can't honor — before the customer sees them.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='36' fill='%2318191F'/%3E%3Cpath d='M46 84 L70 108 L116 52' stroke='%23F7F5F1' stroke-width='15' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, Segoe UI, sans-serif; background:#0a0b0e; color:#e8e8e8; margin:0; padding:0; }
-  .wrap { max-width:760px; margin:0 auto; padding:0 24px 60px; }
-  nav { max-width:760px; margin:0 auto; padding:28px 24px 0; display:flex; align-items:center; justify-content:space-between; }
-  .brand { display:flex; align-items:center; gap:10px; }
-  .brand .icon { width:32px; height:32px; border-radius:9px; background:#4F46E5; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .brand .word { font-weight:700; font-size:17px; color:#f2f3f5; letter-spacing:-0.3px; }
-  nav a.navlink { color:#aab0bd; font-size:14px; text-decoration:none; font-weight:600; }
-  nav a.navlink:hover { color:#e8e8e8; }
-  .hero { padding-top:56px; }
-  .kicker { color:#4f7fff; font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; }
-  h1 { font-size:2.4em; line-height:1.15; margin:14px 0 18px; }
-  p.lead { font-size:1.15em; color:#bbb; line-height:1.6; max-width:620px; }
-  .proof { margin:40px 0; padding:20px 24px; background:#15171c; border-radius:10px; border-left:3px solid #4f7fff; font-size:14px; color:#ccc; line-height:1.6;}
-  .proof b { color:#fff; }
-  h2 { font-size:1.3em; margin-top:56px; }
-  .steps { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; margin-top:20px; }
-  .step { background:#15171c; border-radius:10px; padding:18px; }
-  .step .num { color:#4f7fff; font-weight:700; font-size:13px; }
-  .step p { font-size:14px; color:#bbb; margin:8px 0 0; line-height:1.5;}
-  form { margin-top:30px; display:flex; gap:10px; flex-wrap:wrap; }
-  input[type=email] { flex:1; min-width:220px; padding:14px 16px; border-radius:8px; border:1px solid #333; background:#1b1e24; color:#e8e8e8; font-size:15px; }
-  select { padding:14px 16px; border-radius:8px; border:1px solid #333; background:#1b1e24; color:#e8e8e8; font-size:15px; }
-  button { background:#4f7fff; color:white; border:none; padding:14px 26px; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; }
-  button:disabled { opacity:0.5; cursor:not-allowed; }
-  #msg { margin-top:12px; font-size:14px; color:#888; }
-  footer { margin-top:70px; font-size:12px; color:#666; }
+:root{
+  --paper:#FBFAF7;
+  --paper-2:#F4F2ED;
+  --ink:#17181C;
+  --ink-2:#3D4048;
+  --muted:#6E7179;
+  --rule:#E3DFD6;
+  --rule-2:#D6D1C5;
+  --accent:#A03E28;
+  --accent-soft:#F5EAE5;
+  --ok:#2F6B4F;
+  --warn:#8A5A12;
+  --bad:#A32217;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --measure:680px;
+  --wide:1080px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+a{color:inherit}
+::selection{background:var(--accent-soft)}
+
+.wrap{max-width:var(--wide); margin:0 auto; padding:0 32px}
+.narrow{max-width:var(--measure)}
+
+/* ---------- nav ---------- */
+nav{border-bottom:1px solid var(--rule); background:rgba(251,250,247,.92); backdrop-filter:saturate(180%) blur(8px); position:sticky; top:0; z-index:20}
+.nav-in{max-width:var(--wide); margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px}
+.brand{display:flex; align-items:center; gap:11px; text-decoration:none}
+.mark{width:29px;height:29px;border-radius:8px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.wordmark{font-family:var(--serif); font-size:22px; letter-spacing:-.01em; font-weight:500}
+.nav-links{display:flex; align-items:center; gap:28px}
+.nav-links a{font-size:14.5px; color:var(--ink-2); text-decoration:none; font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.btn{
+  display:inline-block; font-family:var(--sans); font-size:15px; font-weight:500;
+  padding:11px 20px; border-radius:7px; border:1px solid var(--ink); background:var(--ink);
+  color:var(--paper); text-decoration:none; cursor:pointer; transition:opacity .15s ease, border-color .15s ease;
+}
+.btn:hover{opacity:.86}
+.btn-ghost{background:transparent; color:var(--ink); border-color:var(--rule-2)}
+.btn-ghost:hover{border-color:var(--ink); opacity:1}
+.btn-sm{padding:8px 15px; font-size:14px}
+
+/* ---------- hero ---------- */
+.hero{padding:104px 0 76px; border-bottom:1px solid var(--rule)}
+.eyebrow{
+  font-size:12.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:600;
+  color:var(--accent); margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif); font-weight:400; letter-spacing:-.02em;
+  font-size:clamp(38px,5.4vw,60px); line-height:1.08; margin:0 0 26px; max-width:16ch;
+}
+h1 em{font-style:italic; color:var(--accent)}
+.lede{font-size:20px; line-height:1.6; color:var(--ink-2); max-width:60ch; margin:0 0 36px}
+.hero-cta{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
+.hero-note{font-size:14px; color:var(--muted); margin-top:18px}
+
+/* ---------- section furniture ---------- */
+section{padding:86px 0}
+.sec-label{
+  font-size:12.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:600;
+  color:var(--muted); margin:0 0 18px;
+}
+h2{font-family:var(--serif); font-weight:400; font-size:clamp(28px,3.4vw,38px); line-height:1.18; letter-spacing:-.015em; margin:0 0 20px}
+h3{font-size:17px; font-weight:600; margin:0 0 8px; letter-spacing:-.005em}
+p{margin:0 0 20px}
+.rule{border:0; border-top:1px solid var(--rule); margin:0}
+
+/* ---------- demo ---------- */
+.demo-sec{background:var(--paper-2); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule)}
+.demo{
+  background:var(--paper); border:1px solid var(--rule-2); border-radius:12px;
+  overflow:hidden; box-shadow:0 1px 2px rgba(23,24,28,.04), 0 8px 28px -18px rgba(23,24,28,.22);
+}
+.demo-bar{
+  display:flex; align-items:center; gap:8px; padding:12px 18px;
+  border-bottom:1px solid var(--rule); background:var(--paper-2);
+}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--rule-2)}
+.demo-bar span.file{margin-left:8px; font-size:12.5px; color:var(--muted); font-family:var(--mono)}
+.demo-body{display:grid; grid-template-columns:1fr 1fr}
+.demo-col{padding:26px 24px}
+.demo-col + .demo-col{border-left:1px solid var(--rule)}
+.col-label{
+  font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; font-weight:600;
+  color:var(--muted); margin:0 0 12px;
+}
+.policy{
+  font-family:var(--mono); font-size:13px; line-height:1.75; color:var(--ink-2);
+  background:var(--paper-2); border:1px solid var(--rule); border-radius:8px; padding:14px 16px; margin:0;
+}
+.draft{font-size:15.5px; line-height:1.72; color:var(--ink-2); margin:0}
+.hl{background:#F7E3DF; border-bottom:1.5px solid var(--accent); padding:1px 2px; border-radius:2px; color:var(--ink)}
+.verdicts{border-top:1px solid var(--rule); padding:22px 24px 26px; background:var(--paper)}
+.verdict{display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--rule)}
+.verdict:last-child{border-bottom:0; padding-bottom:0}
+.chip{
+  flex:0 0 auto; font-size:10.5px; letter-spacing:.07em; text-transform:uppercase; font-weight:600;
+  padding:4px 9px; border-radius:5px; height:fit-content; margin-top:2px; white-space:nowrap;
+}
+.chip.bad{background:#FBEAE8; color:var(--bad)}
+.chip.warn{background:#FAF0DF; color:var(--warn)}
+.chip.ok{background:#E8F2EC; color:var(--ok)}
+.verdict-txt{min-width:0}
+.verdict-claim{font-size:15.5px; font-weight:500; margin:0 0 3px; letter-spacing:-.005em}
+.verdict-why{font-size:14.5px; color:var(--muted); margin:0; line-height:1.55}
+.demo-caption{font-size:14.5px; color:var(--muted); margin:20px auto 0; text-align:center; max-width:62ch}
+
+/* ---------- steps ---------- */
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:36px; margin-top:44px}
+.step-n{font-family:var(--serif); font-size:34px; color:var(--rule-2); line-height:1; margin:0 0 14px}
+.step p{font-size:15.5px; color:var(--muted); margin:0; line-height:1.6}
+
+/* ---------- evidence ---------- */
+.evidence{display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--rule); border-radius:12px; overflow:hidden; margin-top:40px}
+.ev{padding:32px 30px}
+.ev + .ev{border-left:1px solid var(--rule)}
+.ev blockquote{
+  font-family:var(--serif); font-size:20px; line-height:1.45; margin:0 0 16px; letter-spacing:-.01em;
+}
+.ev cite{font-style:normal; font-size:13.5px; color:var(--muted); display:block; line-height:1.55}
+.ev cite b{color:var(--ink-2); font-weight:600}
+
+/* ---------- honest ---------- */
+.two{display:grid; grid-template-columns:1fr 1fr; gap:56px; margin-top:36px}
+.list{list-style:none; padding:0; margin:0}
+.list li{position:relative; padding-left:26px; margin-bottom:14px; font-size:15.5px; color:var(--ink-2); line-height:1.6}
+.list li::before{position:absolute; left:0; top:0; font-family:var(--mono); font-size:13px}
+.list.yes li::before{content:'\2713'; color:var(--ok)}
+.list.no li::before{content:'\2014'; color:var(--muted)}
+
+/* ---------- signup ---------- */
+.signup{background:var(--ink); color:var(--paper); border-radius:14px; padding:52px 48px}
+.signup h2{color:var(--paper); margin-bottom:14px}
+.signup p{color:#B4B7BE; max-width:52ch}
+form{display:flex; flex-wrap:wrap; gap:10px; margin-top:28px}
+input[type=email], select{
+  font-family:var(--sans); font-size:15.5px; padding:13px 15px; border-radius:8px;
+  border:1px solid #3A3D45; background:#212329; color:var(--paper); min-width:0;
+}
+input[type=email]{flex:1 1 260px}
+input[type=email]::placeholder{color:#7C8089}
+select{flex:0 1 210px}
+input[type=email]:focus, select:focus{outline:2px solid #8A8E96; outline-offset:1px}
+.btn-light{background:var(--paper); color:var(--ink); border-color:var(--paper)}
+#msg{font-size:14.5px; color:#B4B7BE; margin-top:14px; min-height:20px}
+.signup small{display:block; color:#8A8E96; font-size:13.5px; margin-top:20px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--rule); padding:44px 0 60px}
+.foot-in{display:flex; flex-wrap:wrap; gap:24px; justify-content:space-between; align-items:flex-start}
+.foot-links{display:flex; flex-wrap:wrap; gap:22px}
+.foot-links a{font-size:14.5px; color:var(--muted); text-decoration:none}
+.foot-links a:hover{color:var(--ink)}
+.foot-note{font-size:13.5px; color:var(--muted); max-width:46ch; margin:0}
+
+@media (max-width:860px){
+  .demo-body{grid-template-columns:1fr}
+  .demo-col + .demo-col{border-left:0; border-top:1px solid var(--rule)}
+  .steps{grid-template-columns:1fr; gap:28px}
+  .evidence{grid-template-columns:1fr}
+  .ev + .ev{border-left:0; border-top:1px solid var(--rule)}
+  .two{grid-template-columns:1fr; gap:32px}
+  .nav-links a:not(.btn){display:none}
+  .hero{padding:68px 0 56px}
+  section{padding:64px 0}
+  .signup{padding:36px 26px}
+  .wrap{padding:0 22px}
+  .nav-in{padding:16px 22px}
+}
 </style>
 </head>
 <body>
+
 <nav>
-  <div class="brand">
-    <span class="icon">
-      <svg width="18" height="18" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-        <path d="M44 86 L68 110 L118 50" stroke="#F5F6F8" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </span>
-    <span class="word">Claivo</span>
+  <div class="nav-in">
+    <a class="brand" href="index.html">
+      <span class="mark">
+        <svg width="16" height="16" viewBox="0 0 160 160" aria-hidden="true">
+          <path d="M46 84 L70 108 L116 52" stroke="#F7F5F1" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </span>
+      <span class="wordmark">Claivo</span>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#evidence">Why it matters</a>
+      <a href="blog-ai-chatbot-liability.html">Writing</a>
+      <a class="btn btn-ghost btn-sm" href="app.html">Try the checker</a>
+    </div>
   </div>
-  <a class="navlink" href="app.html">Open the app &rarr;</a>
 </nav>
-<div class="wrap">
-  <div class="hero">
-  <div class="kicker">Claivo</div>
-  <h1>Catch what your AI chatbot gets wrong, before your customer does.</h1>
-  <p class="lead">Every reply your support AI sends gets checked against your actual policies and order data first. Wrong return windows, invented discounts, and promises that were never real get flagged before they go out, not after a customer holds you to them.</p>
 
-  <div class="proof">
-    This isn't hypothetical. <b>Air Canada was held legally responsible</b> for a refund policy its chatbot made up. <b>Lloyd's of London now sells insurance</b> specifically covering AI hallucination losses. If your business talks to customers through AI, this is already a real cost, whether you've seen it yet or not.
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">AI support, verified</p>
+    <h1>Your chatbot can promise things you <em>never agreed to</em>.</h1>
+    <p class="lede">
+      Claivo reads every reply your AI drafts and checks each claim against your actual
+      policies — catching invented discounts, wrong return windows, and promises you can't
+      honor while there's still time to fix them.
+    </p>
+    <div class="hero-cta">
+      <a class="btn" href="#access">Request early access</a>
+      <a class="btn btn-ghost" href="#demo">See a real check</a>
+    </div>
+    <p class="hero-note">In development. There's a working checker you can try right now.</p>
   </div>
+</header>
 
-  <h2>How it works</h2>
-  <div class="steps">
-    <div class="step"><div class="num">01</div><p>Connect your policies, product catalog, and order data as your source of truth.</p></div>
-    <div class="step"><div class="num">02</div><p>Every AI-drafted reply gets checked against that source before it's sent.</p></div>
-    <div class="step"><div class="num">03</div><p>Unsupported or contradicted claims get flagged, with a log you can point to later.</p></div>
+<section class="demo-sec" id="demo">
+  <div class="wrap">
+    <p class="sec-label">An actual check</p>
+    <h2 class="narrow" style="margin-bottom:36px">One reply. Four claims. Three problems.</h2>
+
+    <div class="demo">
+      <div class="demo-bar">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="file">claivo · verification result</span>
+      </div>
+
+      <div class="demo-body">
+        <div class="demo-col">
+          <p class="col-label">The store's real policy</p>
+          <p class="policy">Returns accepted within 30 days of delivery, item must be unworn with tags attached. Sale items are final sale, store credit only, no refunds. Standard shipping takes 5–7 business days. We do not offer expedited shipping at this time.</p>
+        </div>
+        <div class="demo-col">
+          <p class="col-label">What the AI wanted to send</p>
+          <p class="draft">
+            Hi! No problem, you're welcome to <span class="hl">return this within 60 days</span>
+            for a <span class="hl">full refund</span>, <span class="hl">even the sale item</span>.
+            Since you're a valued customer I can also
+            <span class="hl">upgrade you to expedited shipping</span> on your next order at no charge.
+          </p>
+        </div>
+      </div>
+
+      <div class="verdicts">
+        <div class="verdict">
+          <span class="chip bad">Contradicted</span>
+          <div class="verdict-txt">
+            <p class="verdict-claim">Returns are accepted within 60 days</p>
+            <p class="verdict-why">Policy states returns are accepted within 30 days of delivery, not 60.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <span class="chip warn">Unsupported</span>
+          <div class="verdict-txt">
+            <p class="verdict-claim">The return will result in a full refund</p>
+            <p class="verdict-why">Policy never states that non-sale returns are refunded in full — only the eligibility conditions.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <span class="chip bad">Contradicted</span>
+          <div class="verdict-txt">
+            <p class="verdict-claim">The sale item can be returned for a full refund</p>
+            <p class="verdict-why">Policy states sale items are final sale, store credit only, no refunds.</p>
+          </div>
+        </div>
+        <div class="verdict">
+          <span class="chip bad">Contradicted</span>
+          <div class="verdict-txt">
+            <p class="verdict-claim">Customer can be upgraded to expedited shipping</p>
+            <p class="verdict-why">Policy states expedited shipping is not offered at this time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="demo-caption">Real output from the live checker, not a mockup. Every flag cites the specific line of policy it conflicts with, so you can settle it in seconds.</p>
   </div>
+</section>
 
-  <h2>Get early access</h2>
-  <p class="lead" style="font-size:1em;">We're onboarding a small number of stores before general availability. Tell us where you run support and we'll reach out.</p>
-
-  <form onsubmit="joinWaitlist(event)">
-    <input type="email" id="email" placeholder="you@yourstore.com" required>
-    <select id="platform">
-      <option value="">Where do you run support?</option>
-      <option value="shopify">Shopify</option>
-      <option value="zendesk">Zendesk</option>
-      <option value="intercom">Intercom</option>
-      <option value="custom">Custom / other</option>
-    </select>
-    <button id="joinBtn" type="submit">Join the waitlist</button>
-  </form>
-  <div id="msg"></div>
-
-  <footer>Claivo is in early development. This page describes what we're building, not a live product yet.<br><a href="privacy.html" style="color:#666;">Privacy Policy</a> &middot; <a href="terms.html" style="color:#666;">Terms of Service</a> &middot; <a href="blog-ai-chatbot-liability.html" style="color:#666;">Blog</a></footer>
+<section id="how">
+  <div class="wrap">
+    <p class="sec-label">How it works</p>
+    <h2 class="narrow">Three moving parts. Nothing to rebuild.</h2>
+    <div class="steps">
+      <div class="step">
+        <p class="step-n">01</p>
+        <h3>Give it your source of truth</h3>
+        <p>Your return, shipping and warranty policies. On Shopify they import automatically at install; otherwise paste them in.</p>
+      </div>
+      <div class="step">
+        <p class="step-n">02</p>
+        <h3>Send drafts through the check</h3>
+        <p>Before a reply goes out, Claivo splits it into individual factual claims and tests each one against that source.</p>
+      </div>
+      <div class="step">
+        <p class="step-n">03</p>
+        <h3>Get flags, with receipts</h3>
+        <p>Each claim comes back supported, unsupported, or contradicted — with the reasoning and a record you can point to later.</p>
+      </div>
+    </div>
   </div>
-</div>
+</section>
+
+<hr class="rule">
+
+<section id="evidence">
+  <div class="wrap">
+    <p class="sec-label">Why it matters</p>
+    <h2 class="narrow">The "our AI said it, not us" defense has already failed in court.</h2>
+    <p class="narrow" style="color:var(--muted); max-width:62ch">
+      This isn't a hypothetical being marketed at you. It has been litigated, and it has been priced by insurers.
+    </p>
+
+    <div class="evidence">
+      <div class="ev">
+        <blockquote>A tribunal ordered Air Canada to honor a bereavement discount its chatbot invented.</blockquote>
+        <cite>
+          <b>Moffatt v. Air Canada</b> — BC Civil Resolution Tribunal, February 2024.
+          The airline argued the chatbot was responsible for its own words.
+          The tribunal rejected that outright and found negligent misrepresentation.
+        </cite>
+      </div>
+      <div class="ev">
+        <blockquote>Lloyd's of London now underwrites losses caused by AI hallucination.</blockquote>
+        <cite>
+          <b>Armilla AI</b> — launched April 2025, backed by Lloyd's syndicates,
+          since expanded to $25M per-insured limits. Insurers don't price coverage
+          for risks they consider theoretical.
+        </cite>
+      </div>
+    </div>
+
+    <p style="margin-top:32px; font-size:15px">
+      <a href="blog-ai-chatbot-liability.html" style="color:var(--accent); text-decoration:none; font-weight:500">Read the full breakdown of the ruling &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section>
+  <div class="wrap">
+    <p class="sec-label">Straight answers</p>
+    <h2 class="narrow">What Claivo is, and what it isn't.</h2>
+    <div class="two">
+      <div>
+        <h3 style="margin-bottom:16px">What it does</h3>
+        <ul class="list yes">
+          <li>Checks AI-drafted replies against policy text you control</li>
+          <li>Flags each claim individually, with the conflicting line cited</li>
+          <li>Keeps a record of what was checked and what it found</li>
+          <li>Imports Shopify store policies automatically at install</li>
+          <li>Encrypts your policy text at rest; isolates every account</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-bottom:16px">What it doesn't do — yet</h3>
+        <ul class="list no">
+          <li>Doesn't rewrite or replace your chatbot</li>
+          <li>Doesn't plug into helpdesk tools automatically today; checks run through the app or API</li>
+          <li>Doesn't re-read your live policy pages on a schedule — it checks against the copy you've given it</li>
+          <li>Doesn't guarantee accuracy. It's a second pair of eyes, not a warranty</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="access" style="padding-top:0">
+  <div class="wrap">
+    <div class="signup">
+      <h2>Get early access</h2>
+      <p>We're working with a small number of stores before general availability. Tell us where you handle support and we'll be in touch.</p>
+      <form onsubmit="joinWaitlist(event)">
+        <label class="sr-only" for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@yourstore.com" required autocomplete="email">
+        <label class="sr-only" for="platform">Where you run support</label>
+        <select id="platform">
+          <option value="">Where do you run support?</option>
+          <option value="shopify">Shopify</option>
+          <option value="zendesk">Zendesk</option>
+          <option value="intercom">Intercom</option>
+          <option value="custom">Custom / other</option>
+        </select>
+        <button class="btn btn-light" id="joinBtn" type="submit">Request access</button>
+      </form>
+      <div id="msg" role="status" aria-live="polite"></div>
+      <small>No newsletter, no drip sequence. We'll email once there's something worth showing you.</small>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>
+      <a class="brand" href="index.html" style="margin-bottom:14px">
+        <span class="mark" style="width:25px;height:25px">
+          <svg width="14" height="14" viewBox="0 0 160 160" aria-hidden="true">
+            <path d="M46 84 L70 108 L116 52" stroke="#F7F5F1" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </span>
+        <span class="wordmark" style="font-size:19px">Claivo</span>
+      </a>
+      <p class="foot-note">Claivo is in active development. This page describes what we're building and what already works — we say plainly which is which.</p>
+    </div>
+    <div class="foot-links">
+      <a href="app.html">Try the checker</a>
+      <a href="blog-ai-chatbot-liability.html">Writing</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
 
 <script>
-// Live backend URL. Note: this still contains "claimcheck" in the hostname —
-// Render doesn't allow renaming a service's live onrender.com subdomain, only
-// its internal display name, so this is the one unavoidable exception left
-// after the full rename (see the project tracker for the full explanation).
 const BACKEND_URL = "https://claimcheck-backend-v00b.onrender.com";
 
-async function joinWaitlist(e) {
+async function joinWaitlist(e){
   e.preventDefault();
   const email = document.getElementById('email').value.trim();
   const platform = document.getElementById('platform').value;
@@ -98,24 +439,25 @@ async function joinWaitlist(e) {
   const btn = document.getElementById('joinBtn');
 
   btn.disabled = true;
-  msg.textContent = 'Submitting...';
+  msg.textContent = 'Sending…';
 
-  try {
-    const res = await fetch(`${BACKEND_URL}/waitlist`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, store_platform: platform || null })
+  try{
+    const res = await fetch(BACKEND_URL + '/waitlist', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email: email, store_platform: platform || null })
     });
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}));
+    if(!res.ok){
+      const body = await res.json().catch(function(){ return {}; });
       throw new Error(body.detail || 'Something went wrong.');
     }
     const data = await res.json();
     msg.textContent = data.status === 'already_signed_up'
-      ? "You're already on the list."
-      : "You're on the list — we'll be in touch.";
-  } catch (err) {
-    msg.textContent = 'Error: ' + err.message + ' (is the backend running and BACKEND_URL set correctly?)';
+      ? "You're already on the list — we'll be in touch."
+      : "You're on the list. We'll reach out before general availability.";
+    document.getElementById('email').value = '';
+  }catch(err){
+    msg.textContent = 'Could not sign you up: ' + err.message;
     btn.disabled = false;
   }
 }

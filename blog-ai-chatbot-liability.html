@@ -1,85 +1,187 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Your AI Chatbot Can Get Your Business Sued — Claivo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your AI chatbot can get your business sued — Claivo</title>
 <meta name="description" content="What the Air Canada chatbot tribunal ruling actually proved, and why Lloyd's of London now insures against AI hallucination losses.">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='38' fill='%234F46E5'/%3E%3Cpath d='M44 86 L68 110 L118 50' stroke='%23F5F6F8' stroke-width='16' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' rx='36' fill='%2318191F'/%3E%3Cpath d='M46 84 L70 108 L116 52' stroke='%23F7F5F1' stroke-width='15' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, Segoe UI, sans-serif; background:#0a0b0e; color:#e8e8e8; margin:0; padding:0; }
-  .wrap { max-width:720px; margin:0 auto; padding:0 24px 60px; }
-  nav { max-width:720px; margin:0 auto; padding:28px 24px 0; display:flex; align-items:center; justify-content:space-between; }
-  .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
-  .brand .icon { width:32px; height:32px; border-radius:9px; background:#4F46E5; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .brand .word { font-weight:700; font-size:17px; color:#f2f3f5; letter-spacing:-0.3px; }
-  nav a.navlink { color:#aab0bd; font-size:14px; text-decoration:none; font-weight:600; }
-  nav a.navlink:hover { color:#e8e8e8; }
-  .hero { padding-top:44px; }
-  .kicker { color:#4f7fff; font-weight:700; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:14px; }
-  h1 { font-size:1.9em; line-height:1.25; margin:0 0 20px; }
-  h2 { font-size:1.25em; margin-top:40px; margin-bottom:10px; color:#f2f3f5; }
-  p { font-size:16px; color:#c9cdd4; line-height:1.75; margin-bottom:18px; }
-  em { color:#9aa0ab; }
-  hr { border:none; border-top:1px solid #222; margin:48px 0 24px; }
-  .byline { color:#888; font-size:13px; margin-bottom:8px; }
-  footer { margin-top:70px; font-size:12px; color:#666; }
-  a.cta { display:inline-block; margin-top:36px; background:#4f7fff; color:white; text-decoration:none; padding:14px 26px; border-radius:8px; font-size:15px; font-weight:700; }
+:root{
+  --paper:#FBFAF7; --paper-2:#F4F2ED; --ink:#17181C; --ink-2:#2E3037;
+  --muted:#6E7179; --rule:#E3DFD6; --rule-2:#D6D1C5;
+  --accent:#A03E28; --accent-soft:#F5EAE5;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+a{color:inherit}
+::selection{background:var(--accent-soft)}
+
+nav{border-bottom:1px solid var(--rule); background:var(--paper)}
+.nav-in{max-width:1080px; margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px}
+.brand{display:flex; align-items:center; gap:11px; text-decoration:none}
+.mark{width:29px;height:29px;border-radius:8px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.wordmark{font-family:var(--serif); font-size:22px; font-weight:500; letter-spacing:-.01em}
+.nav-links{display:flex; align-items:center; gap:26px}
+.nav-links a{font-size:14.5px; color:var(--ink-2); text-decoration:none; font-weight:500}
+.nav-links a:hover{color:var(--ink)}
+.btn{
+  display:inline-block; font-size:14px; font-weight:500; padding:8px 15px; border-radius:7px;
+  border:1px solid var(--rule-2); background:transparent; color:var(--ink); text-decoration:none;
+}
+.btn:hover{border-color:var(--ink)}
+
+article{max-width:680px; margin:0 auto; padding:72px 32px 40px}
+.kicker{font-size:12.5px; letter-spacing:.13em; text-transform:uppercase; font-weight:600; color:var(--accent); margin:0 0 20px}
+h1{
+  font-family:var(--serif); font-weight:400; letter-spacing:-.02em;
+  font-size:clamp(33px,4.6vw,47px); line-height:1.13; margin:0 0 24px;
+}
+.byline{font-size:14px; color:var(--muted); padding-bottom:34px; border-bottom:1px solid var(--rule); margin:0 0 38px}
+.standfirst{font-family:var(--serif); font-size:21px; line-height:1.55; color:var(--ink-2); margin:0 0 34px}
+
+article p{font-size:18px; line-height:1.72; color:var(--ink-2); margin:0 0 24px}
+article h2{
+  font-family:var(--serif); font-weight:500; font-size:27px; line-height:1.25; letter-spacing:-.01em;
+  color:var(--ink); margin:52px 0 18px;
+}
+article em{font-style:italic}
+article strong{font-weight:600; color:var(--ink)}
+
+.pull{
+  font-family:var(--serif); font-size:23px; line-height:1.45; color:var(--ink);
+  border-left:2px solid var(--accent); padding:4px 0 4px 24px; margin:38px 0; letter-spacing:-.01em;
+}
+
+.endnote{
+  font-size:14.5px; line-height:1.65; color:var(--muted);
+  border-top:1px solid var(--rule); padding-top:26px; margin-top:52px;
+}
+
+.cta{
+  background:var(--paper-2); border:1px solid var(--rule); border-radius:12px;
+  padding:30px 32px; margin:52px 0 0;
+}
+.cta h3{font-family:var(--serif); font-weight:400; font-size:24px; letter-spacing:-.01em; margin:0 0 10px}
+.cta p{font-size:16px; margin:0 0 20px; color:var(--muted)}
+.cta a{
+  display:inline-block; background:var(--ink); color:var(--paper); text-decoration:none;
+  font-size:15px; font-weight:500; padding:11px 20px; border-radius:7px;
+}
+.cta a:hover{opacity:.86}
+
+footer{border-top:1px solid var(--rule); padding:34px 0 56px; margin-top:60px}
+.foot-in{max-width:680px; margin:0 auto; padding:0 32px; display:flex; gap:22px; flex-wrap:wrap}
+.foot-in a{font-size:14px; color:var(--muted); text-decoration:none}
+.foot-in a:hover{color:var(--ink)}
+
+@media (max-width:640px){
+  article{padding:48px 22px 32px}
+  article p{font-size:17px}
+  .nav-links a:not(.btn){display:none}
+  .nav-in{padding:16px 22px}
+  .foot-in{padding:0 22px}
+}
 </style>
 </head>
 <body>
-<nav>
-  <a class="brand" href="index.html">
-    <span class="icon">
-      <svg width="18" height="18" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-        <path d="M44 86 L68 110 L118 50" stroke="#F5F6F8" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </span>
-    <span class="word">Claivo</span>
-  </a>
-  <a class="navlink" href="app.html">Open the app &rarr;</a>
-</nav>
-<div class="wrap">
-  <div class="hero">
-  <div class="kicker">AI &amp; Liability</div>
-  <div class="byline">Published July 27, 2026</div>
-  <h1>Your AI Chatbot Can Get Your Business Sued. Here's What the Air Canada Case Actually Proved.</h1>
 
-  <p>In February 2024, a Canadian tribunal ruled that Air Canada had to honor a discount its customer service chatbot invented out of thin air. It's a small case — the payout was about $812 — but the legal reasoning behind it is the part every business running an AI support agent should actually read, because it closes off the one defense most companies assume they have.</p>
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="index.html">
+      <span class="mark">
+        <svg width="16" height="16" viewBox="0 0 160 160" aria-hidden="true">
+          <path d="M46 84 L70 108 L116 52" stroke="#F7F5F1" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </span>
+      <span class="wordmark">Claivo</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#evidence">Why it matters</a>
+      <a class="btn" href="app.html">Try the checker</a>
+    </div>
+  </div>
+</nav>
+
+<article>
+  <p class="kicker">AI &amp; Liability</p>
+  <h1>Your AI chatbot can get your business sued</h1>
+  <p class="byline">Published 27 July 2026 · 6 minute read</p>
+
+  <p class="standfirst">In February 2024 a Canadian tribunal ruled that Air Canada had to honor a discount its customer service chatbot invented out of thin air. The payout was about $812. The reasoning is what every business running an AI support agent should actually read.</p>
+
+  <p>It's a small case by any measure. But it closes off the one defense most companies assume they have — and it has been followed by an insurance market that now prices this risk in the tens of millions.</p>
 
   <h2>The case: Moffatt v. Air Canada</h2>
-  <p>Jake Moffatt's grandmother died in November 2022. He went to Air Canada's website to ask about bereavement fares and was routed to the airline's AI chatbot. The chatbot told him he could book a flight at full price and claim a bereavement discount afterward, within 90 days, by filing a claim with supporting documents.</p>
-  <p>That isn't Air Canada's actual policy. The real bereavement policy requires the discount to be approved <em>before</em> travel — it doesn't exist as a retroactive refund at all. Moffatt booked the flights, flew, and then filed for the discount the chatbot had promised him. Air Canada refused, telling him the chatbot had simply been wrong and that its statements weren't binding on the company.</p>
-  <p>Air Canada's argument to the BC Civil Resolution Tribunal was, in effect: the chatbot is a separate tool that generated its own text, so the airline shouldn't be liable for what it said. Tribunal member Christopher Rivers rejected that outright. The ruling found Air Canada liable for "negligent misrepresentation" and stated plainly that it made no difference whether the incorrect information came from a static webpage or an interactive chatbot — Air Canada was responsible for the accuracy of everything published under its name, including whatever its AI decided to say in the moment. The airline was ordered to pay the promised discount plus damages and fees.</p>
-  <p>The dollar amount here is trivial. The precedent isn't. "Our AI made that up, not us" is no longer a viable legal position. If your chatbot says it to a customer, your business said it.</p>
 
-  <h2>The insurance market already believes you</h2>
+  <p>Jake Moffatt's grandmother died in November 2022. He went to Air Canada's website to ask about bereavement fares and was routed to the airline's AI chatbot. The chatbot told him he could book a flight at full price and claim a bereavement discount afterward, within 90 days, by filing a claim with supporting documents.</p>
+
+  <p>That isn't Air Canada's actual policy. The real bereavement policy requires the discount to be approved <em>before</em> travel — it doesn't exist as a retroactive refund at all. Moffatt booked the flights, flew, and then filed for the discount the chatbot had promised him. Air Canada refused, telling him the chatbot had simply been wrong and that its statements weren't binding on the company.</p>
+
+  <p>Air Canada's argument to the BC Civil Resolution Tribunal was, in effect: the chatbot is a separate tool that generated its own text, so the airline shouldn't be liable for what it said. Tribunal member Christopher Rivers rejected that outright. The ruling found Air Canada liable for negligent misrepresentation and stated plainly that it made no difference whether the incorrect information came from a static webpage or an interactive chatbot — Air Canada was responsible for the accuracy of everything published under its name, including whatever its AI decided to say in the moment.</p>
+
+  <p class="pull">"Our AI made that up, not us" is no longer a viable legal position. If your chatbot says it to a customer, your business said it.</p>
+
+  <h2>The insurance market already believes it</h2>
+
   <p>Legal precedent is one signal. The insurance market is another, and insurers don't price coverage for risks they consider hypothetical.</p>
+
   <p>In April 2025, Armilla AI launched what is generally recognized as the first standalone AI liability insurance policy underwritten at Lloyd's of London, backed by syndicates including Chaucer Group. The policy explicitly covers financial loss tied to AI model error, hallucination, and drift — plus the fallout from harmful or misleading outputs, including the legal costs of defending or settling claims that result. Armilla has since expanded the product to $25 million in per-insured coverage limits.</p>
-  <p>A market only builds a $25 million insurance product around a risk once it's confident that risk produces real, recurring, quantifiable losses. Lloyd's underwriters aren't speculative about this the way a blog post can afford to be — they've seen enough claims data (real or actuarially modeled) to price the exposure. If your business talks to customers through an AI agent, you are already inside the risk category this product exists to cover, whether or not you've bought anything to address it.</p>
+
+  <p>A market only builds a $25 million insurance product around a risk once it's confident that risk produces real, recurring, quantifiable losses. If your business talks to customers through an AI agent, you are already inside the risk category this product exists to cover, whether or not you've bought anything to address it.</p>
 
   <h2>How often does this actually happen?</h2>
+
   <p>More often than most teams assume, and the incidents that reach a tribunal are the visible tip of a much larger pile.</p>
-  <p>Recent research on customer-support-specific deployments puts chatbot hallucination rates in the range of 15–27% of interactions, with some enterprise deployments reporting hallucination rates around 18% in live production traffic. One 2025 case study of a support operation handling 18,000 chats a week found a 2.4% hallucination rate translated into 160 escalations and roughly 40 extra hours of human agent time <em>per day</em> cleaning up after the AI. Separately, hallucination-related complaints are reported to make up a small fraction of total ticket volume — often well under 1% — yet 71% of customer experience leaders rank hallucinations among their top three governance risks, because each individual incident tends to be publicly visible and disproportionately costly relative to how rarely it happens. A wrong answer about a warranty or a return window doesn't need to happen often to end up in a chargeback dispute, a public complaint, a regulator's inbox, or — as Air Canada found out — a tribunal ruling.</p>
-  <p>The pattern worth noting: grounding an AI system in your actual source documents rather than letting it answer from general training data measurably reduces this. Research comparing grounded (retrieval-based) systems to ungrounded ones found hallucination rates roughly 85% lower when the model is required to check its answer against real source material before responding. That's not a marginal improvement — it's close to the difference between a system you can trust in front of customers and one you can't.</p>
+
+  <p>Recent research on customer-support deployments puts chatbot hallucination rates in the range of 15–27% of interactions, with some enterprise deployments reporting around 18% in live production traffic. One 2025 case study of a support operation handling 18,000 chats a week found a 2.4% hallucination rate translated into 160 escalations and roughly 40 extra hours of human agent time <em>per day</em> cleaning up after the AI.</p>
+
+  <p>Hallucination-related complaints often make up well under 1% of total ticket volume — yet 71% of customer experience leaders rank hallucinations among their top three governance risks, because each individual incident tends to be publicly visible and disproportionately costly relative to how rarely it happens. A wrong answer about a warranty or a return window doesn't need to happen often to end up in a chargeback dispute, a public complaint, a regulator's inbox, or a tribunal ruling.</p>
+
+  <p>One pattern is worth noting: grounding an AI system in your actual source documents rather than letting it answer from general training data measurably reduces this. Research comparing grounded retrieval-based systems to ungrounded ones found hallucination rates roughly 85% lower when the model is required to check its answer against real source material before responding.</p>
 
   <h2>What this means if you run a business with an AI support bot</h2>
-  <p>Three things follow directly from the Air Canada ruling and the shape of the insurance market that's formed around it:</p>
+
   <p><strong>You own what your AI says, in the same way you own what your website says.</strong> There is no longer a credible "the bot said it, not us" defense. Courts have already rejected it once, on the record, in a written decision.</p>
-  <p><strong>"We'll fix it if someone complains" is a bad plan, not a mitigation strategy.</strong> The Moffatt case cost Air Canada a tribunal loss and a wave of international press coverage over a discount that would have cost them a fraction of that if the chatbot had simply been right — or if something had caught the error before it reached the customer.</p>
-  <p><strong>The fix is architectural, not just a prompt tweak.</strong> The reason grounded systems hallucinate at a fraction of the rate of ungrounded ones is that they're checking claims against real source data instead of generating from memory. The practical version of that for a live support chatbot is a verification step that sits between the AI's draft answer and the customer: something that checks the specific claims in that answer — the return window, the discount, the shipping promise — against your actual, current policy documents, and flags anything that doesn't match before it ever reaches someone who might book a flight, buy something, or make a decision based on it.</p>
-  <p>That's the layer that was missing in the Air Canada case. The chatbot generated a plausible-sounding answer, and nothing checked it against the airline's real bereavement policy before it reached the customer. A verification step wouldn't have needed to make the chatbot smarter — it just needed to catch the one sentence that didn't match reality.</p>
+
+  <p><strong>"We'll fix it if someone complains" is a bad plan, not a mitigation strategy.</strong> The Moffatt case cost Air Canada a tribunal loss and a wave of international press coverage over a discount that would have cost a fraction of that if the chatbot had simply been right — or if something had caught the error before it reached the customer.</p>
+
+  <p><strong>The fix is architectural, not a prompt tweak.</strong> The reason grounded systems hallucinate at a fraction of the rate of ungrounded ones is that they check claims against real source data instead of generating from memory. The practical version of that for a live support chatbot is a verification step between the AI's draft answer and the customer: something that checks the specific claims in that answer — the return window, the discount, the shipping promise — against your actual, current policy documents, and flags anything that doesn't match.</p>
+
+  <p>That's the layer that was missing in the Air Canada case. The chatbot generated a plausible-sounding answer, and nothing checked it against the airline's real bereavement policy before it reached the customer. A verification step wouldn't have needed to make the chatbot smarter. It just needed to catch the one sentence that didn't match reality.</p>
 
   <h2>The bottom line</h2>
-  <p>This isn't a future risk businesses should start thinking about eventually. It's a risk that has already been litigated, already been priced by Lloyd's of London, and is already producing measurable operational cost in support organizations running AI at any real volume. The businesses that come out ahead here aren't the ones with the most sophisticated chatbot — they're the ones that can prove, after the fact, that every claim their AI made to a customer was checked against something real before it went out.</p>
 
-  <a class="cta" href="index.html">See how Claivo catches this &rarr;</a>
+  <p>This isn't a future risk to start thinking about eventually. It has already been litigated, already been priced by Lloyd's of London, and is already producing measurable operational cost in support organizations running AI at any real volume. The businesses that come out ahead won't be the ones with the most sophisticated chatbot — they'll be the ones that can prove, after the fact, that every claim their AI made to a customer was checked against something real before it went out.</p>
 
-  <hr>
-  <p style="font-size:13px; color:#777;"><em>This article covers publicly reported facts about Moffatt v. Air Canada (BC Civil Resolution Tribunal, February 2024) and Armilla AI's Lloyd's of London-backed AI liability insurance product (launched April 2025). It is not legal advice; businesses with specific concerns about AI-related liability should consult a qualified attorney.</em></p>
-
-  <footer>Claivo is in early development. This page describes what we're building, not a live product yet.</footer>
+  <div class="cta">
+    <h3>This is the layer Claivo builds</h3>
+    <p>Every AI-drafted reply, checked against your actual policies before it sends. There's a working checker you can try right now.</p>
+    <a href="app.html">Try the checker &rarr;</a>
   </div>
-</div>
+
+  <p class="endnote">
+    This article covers publicly reported facts about Moffatt v. Air Canada (BC Civil Resolution Tribunal, February 2024) and Armilla AI's Lloyd's of London-backed AI liability insurance product (launched April 2025). It is not legal advice; businesses with specific concerns about AI-related liability should consult a qualified attorney.
+  </p>
+</article>
+
+<footer>
+  <div class="foot-in">
+    <a href="index.html">Home</a>
+    <a href="app.html">Try the checker</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+  </div>
+</footer>
 </body>
 </html>
